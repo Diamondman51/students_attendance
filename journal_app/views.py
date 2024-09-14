@@ -15,11 +15,10 @@ class Journal(View):
         fake = faker.Faker()
         cal = calendar.Calendar()
         day = date.today()
-        month_days = [i for i in cal.itermonthdays(day.year, day.month) if i != 0]
+        month_days = [day for day, week in cal.itermonthdays2(day.year, day.month) if day != 0 and week != 6]
         names = [fake.name for _ in range(len(month_days))]
         context = {
             "month": month_days,
             "names": names,
         }
         return TemplateResponse(request, "templ.html", context)
-    
